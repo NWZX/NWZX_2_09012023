@@ -1,0 +1,74 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2%;
+    
+    @media (min-width: 768px) {
+        margin: 1%;
+    }
+
+    .sub-container {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+        width: 100%;
+        
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}
+.chart-container{
+    width: 100%;
+    height: 300px;
+    .chart {
+        font-size: 2rem;
+    }
+}
+.box-button {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+
+    background-color: #04838f;
+    border: 0;
+    border-radius: 5px;
+
+    padding: 1rem 2rem;
+    margin: 1rem 0rem;
+
+    transition: transform 0.2s;
+    &:active {
+        background-color: #0d9aa8;
+        transform: scale(0.95);
+        transition: transform 0.2s;
+    }
+
+    img {
+        width: 16px;
+        height: 16px;
+        margin-right: 0.5rem;
+    }
+}
+.box-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    margin-block:  0rem;
+
+    padding: 1rem 2rem;
+    margin: 1rem 0rem;
+
+    background-color: #04838f;
+
+    border-radius: 5px;
+}
+
+
+.medal-icon {
+    width: 16px;
+    height: 16px;
+}

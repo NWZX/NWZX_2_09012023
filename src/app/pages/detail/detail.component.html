@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="sub-container">
+    <button class="box-button" (click)="onBack()" ><img src="/assets/icons/left-arrow.png" alt=""/>Back</button>
+    <h2 class="box-title">{{ countryName }}</h2>
+    <div></div>
+  </div>
+  <div class="box-number-container">
+    <div class="box-number">
+      <p>Number of entries</p>
+      <p>{{ numberOfEntries }}</p>
+    </div>
+    <div class="box-number">
+      <p>Total number of medals</p>
+      <p>{{ numberOfMedals }}</p>
+    </div>
+    <div class="box-number">
+      <p>Total number of athletes</p>
+      <p>{{ numberOfAthletes }}</p>
+    </div>
+  </div>
+  <div class="chart-container">
+  <ngx-charts-line-chart
+    class="chart"
+    [scheme]="scheme"
+    [results]="results"
+    [gradient]="true"
+    [legend]="false"
+    [autoScale]="true"
+    [xAxis]="true"
+    [showXAxisLabel]="true"
+    xAxisLabel="Dates"
+    [yAxis]="true"
+    [showGridLines]="true"
+    (select)="onSelect($event)"
+  >
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="tooltip-inner">
+        <h2>
+          {{ model.name }}
+        </h2>
+        <h3>
+          <img src="/assets/icons/medal.png" alt="medal" class="medal-icon" />
+          {{ model.value }}
+        </h3>
+      </div>
+    </ng-template>
+  </ngx-charts-line-chart>
+  </div>
+</div>
