@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
@@ -11,12 +11,16 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 export class HomeComponent implements OnInit {
   public olympics$: Observable<Olympic[] | null> = of(null);
-  public results: any[] = [];
+  public error$: Observable<string | null> = of(null);
+  private subcription?: Subscription;
+  public results: { id: number; name: string; value: number }[] = [];
 
   constructor(private olympicService: OlympicService, private router: Router) {}
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe((data) => {
+    this.error$ = this.olympicService.getError();
+    
+    this.subcription = this.olympics$.subscribe((data) => {
       if (data) {
         this.results = data.map((item) => {
           return {
@@ -30,27 +34,14 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-
-  view: any[] = [700, 400];
-
-  // options
-  legendPosition: string = 'below';
-  tooltipText: () => void = () => {};
-
-  scheme = 'cool';
+  ngOnDestory(): void {
+    this.subcription?.unsubscribe();
+  }
 
   onSelect(data: { name: string; value: number }): void {
-    const id = this.results.find((item) => item.name === data.name)?.id
+    const id = this.results.find((item) => item.name === data.name)?.id;
     if (id) {
       this.router.navigateByUrl('details/' + id);
     }
-  }
-
-  onActivate(data: any): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: any): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 }
