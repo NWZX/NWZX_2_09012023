@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 
@@ -10,6 +10,7 @@ import { Olympic } from '../models/Olympic';
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<Olympic[] | null>(null);
+  private error$ = new BehaviorSubject<string | null >(null);
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +19,7 @@ export class OlympicService {
       tap((value) => this.olympics$.next(value)),
       catchError((error, caught) => {
         // TODO: improve error handling
-        console.error(error);
+        this.error$.next(error.message);
         // can be useful to end loading state and let the user know something went wrong
         this.olympics$.next(null);
         return caught;
@@ -26,7 +27,11 @@ export class OlympicService {
     );
   }
 
-  getOlympics() {
+  getOlympics(): Observable<Olympic[] | null> {
     return this.olympics$.asObservable();
+  }
+
+  getError(): Observable<string | null> {
+    return this.error$.asObservable();
   }
 }
